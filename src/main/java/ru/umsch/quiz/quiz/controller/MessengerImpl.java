@@ -14,10 +14,14 @@ public class MessengerImpl implements Messenger {
     }
 
     @Override
-    public String askQuestion(String question) {
+    public void askQuestion(String question) {
+        System.out.println("\n" + question);
+    }
+
+    @Override
+    public String answerQuestion(){
         String answer = "";
         try {
-            System.out.println("\n" + question);
             answer = reader.readLine();
         } catch (IOException e) {
             System.out.println("Reading error");

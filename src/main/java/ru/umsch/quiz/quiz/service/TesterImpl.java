@@ -2,6 +2,8 @@ package ru.umsch.quiz.quiz.service;
 
 import ru.umsch.quiz.quiz.controller.Messenger;
 
+
+
 import java.util.Map;
 import java.util.Set;
 
@@ -23,11 +25,14 @@ public class TesterImpl implements Tester {
         int numOfGoodAnswers = 0;
 
         Set<String> questions = questionsAndAnswers.keySet();
-        String firstName = messenger.askQuestion("Your first name: ");
-        String secondName = messenger.askQuestion("Your second name: ");
+        messenger.askQuestion("Your first name: ");
+        String firstName = messenger.answerQuestion();
+        messenger.askQuestion("Your second name: ");
+        String secondName = messenger.answerQuestion();
 
         for (String question : questions) {
-            String answer = messenger.askQuestion(question);
+            messenger.askQuestion(question);
+            String answer = messenger.answerQuestion();
             if (questionsAndAnswers.get(question).toLowerCase().equals(answer.toLowerCase())) {
                 numOfGoodAnswers++;
             }

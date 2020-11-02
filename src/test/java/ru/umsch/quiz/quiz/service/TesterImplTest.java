@@ -26,18 +26,18 @@ public class TesterImplTest {
         System.setOut(new PrintStream(out));
 
         CsvParser parser = mock(CsvParser.class);
-        Map<String,String> questionnaire = new LinkedHashMap<>();
-        questionnaire.put("Who will rule Russia in 2024??", "Putin");
-        questionnaire.put("what to throw to a drowning niger??", "his family");
-        questionnaire.put("riddle by jacques fresco: 2+2+2/2-1?", "4");
-        questionnaire.put("Who pisses in the porches?", "Obama");
-        questionnaire.put("Where's the money..xxx..?", "Lebowski");
-        questionnaire.put("Хуй?", "Пизда");
-        questionnaire.put("А че оно нормально с русским языком работает?", "Да");
-        when(parser.parseQuestionsFromFile(FILE_NAME)).thenReturn(questionnaire);
+        Map<String,String> question = new LinkedHashMap<>();
+        question.put("Who will rule Russia in 2024??", "Putin");
+        question.put("what to throw to a drowning niger??", "his family");
+        question.put("riddle by jacques fresco: 2+2+2/2-1?", "4");
+        question.put("Who pisses in the porches?", "Obama");
+        question.put("Where's the money..xxx..?", "Lebowski");
+        question.put("Хуй?", "Пизда");
+        question.put("А че оно нормально с русским языком работает?", "Да");
+        when(parser.parseQuestionsFromFile(FILE_NAME)).thenReturn(question);
 
         Messenger messenger = mock(Messenger.class);
-        when(messenger.askQuestion(anyString()))
+        when(messenger.answerQuestion())
                 .thenReturn("Ivan")
                 .thenReturn("Ivanov")
                 .thenReturn("Putin")
