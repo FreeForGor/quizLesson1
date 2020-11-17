@@ -1,6 +1,7 @@
 package ru.umsch.quiz.quiz.service;
 
 import org.junit.Test;
+import org.springframework.context.MessageSource;
 import ru.umsch.quiz.quiz.controller.Messenger;
 
 import java.io.ByteArrayOutputStream;
@@ -11,13 +12,15 @@ import java.util.Map;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class TesterImplTest {
 
-    private final String FILE_NAME = "questions.csv";
+    private MessageSource messageSource;
+    private final String FILE_NAME = "questions-en.csv";
 
     @Test
     public void testerTest() {
@@ -32,9 +35,11 @@ public class TesterImplTest {
         question.put("riddle by jacques fresco: 2+2+2/2-1?", "4");
         question.put("Who pisses in the porches?", "Obama");
         question.put("Where's the money..xxx..?", "Lebowski");
-        question.put("Хуй?", "Пизда");
-        question.put("А че оно нормально с русским языком работает?", "Да");
         when(parser.parseQuestionsFromFile(FILE_NAME)).thenReturn(question);
+
+        MessageService messageService = mock(MessageService.class);
+        when(messageService.getMessage(eq("firstName.message"), any())).thenReturn("Ivan");
+        when(messageService.getMessage(eq("secondName.message"), any())).thenReturn("Ivanov");
 
         Messenger messenger = mock(Messenger.class);
         when(messenger.answerQuestion())
@@ -44,17 +49,14 @@ public class TesterImplTest {
                 .thenReturn("his family")
                 .thenReturn("4")
                 .thenReturn("Obama")
-                .thenReturn("Lebowski")
-                .thenReturn("Пизда")
-                .thenReturn("Да")
-                .thenReturn("spring");
+                .thenReturn("Lebowski");
 
 
-        TesterImpl tester = new TesterImpl(parser, messenger);
-        tester.testStudents(FILE_NAME);
+        TesterImpl tester = new TesterImpl(parser, messageService, messenger);
+        tester.testStudents();
 
         String result = out.toString();
-        String expected = "\nCorrect answers: 7 / 7\nGood job, Ivan Ivanov!\n";
+        String expected = "\nCorrect answers: 5 / 5\nGood job, Ivan Ivanov!\n";
         assertThat(result, is(expected));
 
         System.setOut(originalOut);
