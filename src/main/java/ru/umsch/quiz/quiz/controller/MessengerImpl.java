@@ -12,13 +12,11 @@ import java.io.InputStreamReader;
 @Component
 public class MessengerImpl implements Messenger {
 
-    private BufferedReader reader ;
+    private BufferedReader reader;
 
-    private void init()  {
+    private void init() {
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
-
-
 
     @Override
     public void askQuestion(String question) {
@@ -27,7 +25,7 @@ public class MessengerImpl implements Messenger {
 
 
     @Override
-    public String answerQuestion(){
+    public String answerQuestion() {
         init();
         String answer = "";
         try {

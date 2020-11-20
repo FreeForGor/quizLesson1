@@ -1,6 +1,7 @@
 package ru.umsch.quiz.quiz.service;
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.umsch.quiz.quiz.controller.Messenger;
@@ -39,19 +40,27 @@ public class TesterImpl implements Tester {
         Set<String> questions = questionsAndAnswers.keySet();
         System.out.println("Вывод имени фаила: " + fileName);
 
-
+        TestRes result = new TestRes();
         messenger.askQuestion(messageService.getMessage("firstName.message", new Object[]{}));
         String firstName = messenger.answerQuestion();
+        result.setFirstName(firstName);
         messenger.askQuestion(messageService.getMessage("secondName.message", new Object[]{}));
         String secondName = messenger.answerQuestion();
+        result.setSecondName(secondName);
 
         for (String question : questions) {
             messenger.askQuestion(question);
             String answer = messenger.answerQuestion();
             if (questionsAndAnswers.get(question).toLowerCase().equals(answer.toLowerCase())) {
                 numOfGoodAnswers++;
+                result.getResults().put(question, "+");
+            }else{
+                result.getResults().put(question, "-");
             }
         }
+
+        result.setNumOfGoodAnswers(numOfGoodAnswers);
+        testResults.add(result);
 
         System.out.println();
         System.out.println(messageService.getMessage("correct.answers", new Object[]{}) + numOfGoodAnswers + " / "+questions.size());
@@ -60,20 +69,9 @@ public class TesterImpl implements Tester {
 
 
 
-
-
     @Override
     public List<TestRes> getTestResults() {
         return testResults;
     }
 
-//    private void defineLocale() {
-//        if (language == null || language.isEmpty()) {
-//            locale = LocaleContextHolder.getLocale();
-//        } else if (language.equals("en")) {
-//            locale = Locale.ENGLISH;
-//        } else {
-//            locale = new Locale("ru");
-//        }
-//    }
 }

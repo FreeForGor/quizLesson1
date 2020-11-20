@@ -107,7 +107,7 @@ public class TesterCLI {
                 .render(400);
     }
 
-    private void addResultsToModelBuilder(TableModelBuilder<String> modelBuilder, TestRes testResult) {
+    private void  addResultsToModelBuilder(TableModelBuilder<String> modelBuilder, TestRes testResult) {
         modelBuilder.addRow()
                 .addValue(messageService.getMessage("date.of.testing", new Object[]{}))
                 .addValue(new SimpleDateFormat("dd MMM yyyy").format(testResult.getDateOfTesting()))
